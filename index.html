@@ -1,13 +1,341 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CA Harman Arora - Study Tracker</title>
+  <!-- Bootstrap CDN -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    /* Background image with overlay */
+    body {
+      background: url('https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Dark overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: -1;
+    }
+
+    /* Banner animation */
+    @keyframes marqueeLeft {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .marquee {
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      user-select: none;
+    }
+    .marquee-content {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marqueeLeft 15s linear infinite;
+    }
+
+    /* Header banner */
+    .header-banner {
+      font-weight: 700;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      color: #ffc107; /* Gold-ish */
+      text-shadow: 0 0 8px #ffd54f;
+      padding: 10px 0;
+    }
+
+    /* Slogan banner */
+    .slogan-banner {
+      font-style: italic;
+      font-size: 1.3rem;
+      color: #bbdefb;
+      text-shadow: 0 0 5px #90caf9;
+      padding: 10px 0;
+    }
+
+    /* Days left text */
+    .days-left {
+      margin-top: 40px;
+      font-size: 3rem;
+      font-weight: 900;
+      text-align: center;
+      color: #ffeb3b;
+      text-shadow: 0 0 12px #fff176;
+      user-select: none;
+    }
+
+    /* Study input container */
+    .study-input {
+      margin-top: 30px;
+      max-width: 360px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 25px 20px;
+      border-radius: 14px;
+      box-shadow: 0 0 10px rgba(255, 235, 59, 0.6);
+      color: #fff;
+      user-select: none;
+    }
+
+    .study-input label {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #fffde7;
+    }
+
+    .study-input input[type="number"] {
+      margin-top: 8px;
+      width: 100%;
+      padding: 10px 15px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    .feedback-message {
+      margin-top: 15px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      min-height: 24px;
+      color: #fff;
+      user-select: none;
+    }
+
+    /* Dashboard */
+    .dashboard {
+      margin-top: 20px;
+      max-width: 600px;
+      width: 100%;
+      background: rgba(33, 33, 33, 0.75);
+      padding: 25px 20px;
+      border-radius: 14px;
+      box-shadow: 0 0 15px #1976d2;
+      color: #bbdefb;
+      user-select: none;
+    }
+
+    .dashboard h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #64b5f6;
+      user-select: none;
+    }
+
+    .dashboard table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1rem;
+      user-select: text;
+    }
+
+    .dashboard th,
+    .dashboard td {
+      padding: 10px;
+      border-bottom: 1px solid #90caf9;
+      text-align: center;
+    }
+
+    .dashboard th {
+      background: rgba(25, 118, 210, 0.6);
+      font-weight: 700;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .header-banner {
+        font-size: 1.8rem;
+      }
+      .days-left {
+        font-size: 2.2rem;
+      }
+      .study-input {
+        max-width: 100%;
+      }
+      .dashboard {
+        max-width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-<a href="../../first.htm">Back to First</a><br>
-<a href="../middle.htm">Back to Middle</a><br>
-  <p>Currently, I’m pursuing a Bachelor of Technology (B.Tech) degree in Computer Science and Engineering (CSE). My academic journey has given me a deep appreciation for logic, problem-solving, and creativity — which are the very same skills I enjoy applying in both mystery shows and cooking! Whether it’s writing code to solve a real-world problem or decoding a suspenseful storyline, I find joy in thinking critically and exploring new ideas.</p>
+  <!-- Top Banner (moving) -->
+  <div class="marquee" aria-label="Top banner">
+    <div class="marquee-content header-banner">CA Harman Arora</div>
+  </div>
 
+  <!-- Tabs -->
+  <ul class="nav nav-tabs justify-content-center mt-4" id="mainTab" role="tablist" >
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#homeTab" type="button" role="tab" aria-controls="homeTab" aria-selected="true">Home</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboardTab" type="button" role="tab" aria-controls="dashboardTab" aria-selected="false">Dashboard</button>
+    </li>
+  </ul>
 
+  <div class="tab-content mt-4" id="mainTabContent" style="max-width: 600px; margin: auto;">
+    <!-- Home tab -->
+    <div class="tab-pane fade show active" id="homeTab" role="tabpanel" aria-labelledby="home-tab">
+      <!-- Days Left -->
+      <div id="daysLeft" class="days-left" title="Days left until CA exam"></div>
 
+      <!-- Study Input -->
+      <div class="study-input mx-auto">
+        <label for="studyHours">How many hours studied today?</label>
+        <input
+          type="number"
+          id="studyHours"
+          min="0"
+          max="24"
+          placeholder="Enter hours (0-24)"
+          autocomplete="off"
+          aria-describedby="feedback"
+        />
+        <div id="feedback" class="feedback-message" role="alert" aria-live="polite"></div>
+        <button id="saveBtn" class="btn btn-warning mt-3 w-100">Save Study Hours</button>
+      </div>
+    </div>
 
+    <!-- Dashboard tab -->
+    <div class="tab-pane fade" id="dashboardTab" role="tabpanel" aria-labelledby="dashboard-tab">
+      <div class="dashboard mx-auto">
+        <h3>Study History</h3>
+        <table id="historyTable" aria-label="Study hours history">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Hours Studied</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- History rows added here dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Banner (moving) -->
+  <div class="marquee mt-4" aria-label="Bottom slogan banner">
+    <div class="marquee-content slogan-banner">One day I want to honestly say "I made it"</div>
+  </div>
+
+  <!-- Bootstrap JS Bundle (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const examDate = new Date('2025-09-01T00:00:00'); // Adjust year if needed
+    const daysLeftElem = document.getElementById('daysLeft');
+    const studyHoursInput = document.getElementById('studyHours');
+    const feedbackElem = document.getElementById('feedback');
+    const saveBtn = document.getElementById('saveBtn');
+    const historyTableBody = document.querySelector('#historyTable tbody');
+
+    // Calculate days left
+    function updateDaysLeft() {
+      const now = new Date();
+      const diffTime = examDate.getTime() - now.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      daysLeftElem.textContent = diffDays > 0 ? `${diffDays} Days Left` : 'Exam Day is Here!';
+    }
+
+    // Feedback messages based on study hours
+    function getFeedbackMessage(hours) {
+      if (hours === 0) return "No hours studied, try to focus!";
+      if (hours < 1) return "Less than 1 hour is not enough.";
+      if (hours === 1) return "1 hour is less, keep pushing!";
+      if (hours === 2) return "2 hours, can do more!";
+      if (hours <= 4) return "Good effort, keep it up!";
+      if (hours <= 6) return "Great job, very productive!";
+      if (hours <= 8) return "Excellent study time!";
+      if (hours > 8) return "Amazing dedication!";
+      return "";
+    }
+
+    // Load history from localStorage
+    function loadHistory() {
+      const history = JSON.parse(localStorage.getItem('studyHistory')) || {};
+      return history;
+    }
+
+    // Save history to localStorage
+    function saveHistory(history) {
+      localStorage.setItem('studyHistory', JSON.stringify(history));
+    }
+
+    // Render history table
+    function renderHistory() {
+      const history = loadHistory();
+      historyTableBody.innerHTML = '';
+
+      // Sort dates descending
+      const dates = Object.keys(history).sort((a, b) => new Date(b) - new Date(a));
+
+      if (dates.length === 0) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td colspan="2" style="color:#ffccbc;">No study records yet.</td>`;
+        historyTableBody.appendChild(row);
+        return;
+      }
+
+      dates.forEach(date => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${date}</td><td>${history[date]} hour${history[date] !== 1 ? 's' : ''}</td>`;
+        historyTableBody.appendChild(tr);
+      });
+    }
+
+    // On input change update feedback
+    studyHoursInput.addEventListener('input', () => {
+      const hours = parseFloat(studyHoursInput.value);
+      if (isNaN(hours) || hours < 0 || hours > 24) {
+        feedbackElem.textContent = 'Please enter a valid number between 0 and 24.';
+        feedbackElem.style.color = '#ff5252';
+      } else {
+        feedbackElem.textContent = getFeedbackMessage(hours);
+        feedbackElem.style.color = '#fff';
+      }
+    });
+
+    // On save button click
+    saveBtn.addEventListener('click', () => {
+      const hours = parseFloat(studyHoursInput.value);
+      if (isNaN(hours) || hours < 0 || hours > 24) {
+        alert('Please enter a valid number between 0 and 24.');
+        return;
+      }
+
+      const today = new Date().toISOString().split('T')[0]; // yyyy-mm-dd
+      const history = loadHistory();
+      history[today] = hours;
+      saveHistory(history);
+      renderHistory();
+
+      feedbackElem.textContent = `Saved: ${hours} hour${hours !== 1 ? 's' : ''} for ${today}`;
+      feedbackElem.style.color = '#81c784';
+      studyHoursInput.value = '';
+    });
+
+    // Initialize
+    updateDaysLeft();
+    renderHistory();
+
+    // Update days left every hour just in case
+    setInterval(updateDaysLeft, 3600000);
+  </script>
 </body>
 </html>
